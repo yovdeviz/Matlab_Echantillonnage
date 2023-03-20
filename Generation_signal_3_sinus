@@ -1,0 +1,68 @@
+clear all; 
+close all;
+clc;
+
+%%  A / Generation d'un signal s(t)
+
+Fe= 20000;                          %Frequence d'echantillonage dans l'ordre de 10^4
+N=1024;                             %Taille du signal
+k=0:N-1;                            %Tableau de points
+t=k/Fe;                             %Graduation de L axe des temps, on s arrete a chaque fois a une frequence des points Fe
+f1=2130;
+f2=3750;
+f3=4960;
+a1=1;
+a2=1.8;
+a3=0.9;
+x1=a1*sin(2*pi*f1*t);               % generation de x1
+x2=a2*sin(2*pi*f2*t);               % generation de x2
+x3=a3*sin(2*pi*f3*t);               % generation de x3
+s=x1+x2+x3;                         %signal � generer
+
+% figure(1)                           %nommage de figure
+% plot(t,s,'');                       % trac� de s en fonction de t
+% title('Generation du signal s(t) ')
+% xlabel('temps [s]')
+% ylabel('Amplitudes')
+% grid                                %On realise le dessin
+
+
+
+%% B/ Calcul de la transformee de fourier du signal s(t)
+F=k*Fe/N;              %Harmoniques
+TFs=abs(fft(s));
+
+% figure(2)
+% plot(F,TFs,'')
+% title('Transformee de fourier du signal s')
+% xlabel('Frequences [Hz]')
+% ylabel('Amplitudes de fourier')
+% grid 
+
+
+%% Trac� des courbes sur un m�me onglet
+subplot(2,1,1)
+plot(t,s,'');                       % trac� de s en fonction de t
+title('Generation du signal s(t) ')
+xlabel('temps [s]')
+ylabel('Amplitudes')
+            
+subplot(2,1,2)
+plot(F,TFs,'')
+title('Transformee de fourier du signal s')
+xlabel('Frequences [Hz]')
+ylabel('Amplitudes de fourier')
+grid
+
+
+%% A0 / Generation d'un bruit gaussien de puissance p
+p = 0.2;
+moy = 0;
+bruit= moy + p*randn(1,N);
+figure(3)
+plot(t,bruit,'')
+title('bruit gaussien de puissance p')
+xlabel('temps [s]')
+ylabel('Amplitudes')
+grid
+
